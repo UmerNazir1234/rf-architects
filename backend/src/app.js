@@ -90,6 +90,7 @@ app.get('/', (req, res) => {
 
 // API routes
 app.use('/api/v1', routes);
+app.use(routes);
 
 // Not found middleware
 app.use(notFoundMiddleware);
