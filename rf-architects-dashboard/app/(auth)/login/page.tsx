@@ -8,6 +8,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { toast } from "sonner"
 import { useAuth } from "@/contexts/AuthContext"
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:5005/api/v1"
+
 export default function LoginPage() {
   const router = useRouter()
   const { isAuthenticated, login } = useAuth()
@@ -38,7 +40,7 @@ export default function LoginPage() {
 
     setIsLoading(true)
     try {
-      const res = await fetch("http://localhost:5005/api/v1/auth/login", {
+      const res = await fetch(`${API_BASE_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -46,9 +48,10 @@ export default function LoginPage() {
       })
 
       const data = await res.json()
+      const user = data?.data?.user ?? data?.user
 
       if (res.ok) {
-        login(data.data.user)
+        login(user)
         toast.success("Login successful!")
       } else {
         toast.error(data.message || "Invalid credentials")
