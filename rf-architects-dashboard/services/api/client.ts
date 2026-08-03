@@ -1,6 +1,21 @@
 import type { ApiResponse } from "@/models/common.model"
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:5005/api/v1"
+export function getApiBaseUrl() {
+  const value = (process.env.NEXT_PUBLIC_API_BASE_URL || process.env.NEXT_PUBLIC_API_URL || "").trim();
+
+  if (!value) {
+    return "http://localhost:5005/api/v1";
+  }
+
+  const withoutTrailingSlash = value.replace(/\/+$/, "");
+  const withoutApiVersion = withoutTrailingSlash
+    .replace(/\/api\/v\d+$/i, "")
+    .replace(/\/api$/i, "");
+
+  return `${withoutApiVersion}/api/v1`;
+}
+
+const API_BASE_URL = getApiBaseUrl()
 
 export interface ApiRequestConfig {
   method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE"

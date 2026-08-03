@@ -7,8 +7,9 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast } from "sonner"
 import { useAuth } from "@/contexts/AuthContext"
+import { getApiBaseUrl } from "@/services/api/client"
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:5005/api/v1"
+const API_BASE_URL = getApiBaseUrl()
 
 export default function LoginPage() {
   const router = useRouter()
