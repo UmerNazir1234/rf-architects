@@ -1,7 +1,11 @@
 export type Collection = {
+  id?: string;
   name: string;
   slug: string;
-  image: string;
+  image?: string;
+  description?: string;
+  coverImage?: string;
+  _id?: string;
 };
 
 export const collections: Collection[] = [

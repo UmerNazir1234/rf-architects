@@ -1,6 +1,21 @@
 // RF Architects Frontend API Client
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5005/api/v1';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
+  ? `${process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, '')}/api/v1`
+  : process.env.NODE_ENV === 'development'
+    ? 'http://localhost:5005/api/v1'
+    : '';
+
+function getApiUrl(path: string) {
+  if (!API_BASE_URL) return null;
+  return `${API_BASE_URL}${path.startsWith('/') ? path : `/${path}`}`;
+}
+
+type ApiResponse<T = unknown> = {
+  success?: boolean;
+  data?: T;
+  message?: string;
+};
 
 function normalizeIds(obj: any): any {
   if (!obj || typeof obj !== "object") return obj
@@ -61,9 +76,11 @@ export function dedupeProducts(products: any[] = []): any[] {
 
 export async function fetchNavMenu(handle = 'main-navbar') {
   try {
-    const res = await fetch(`${API_BASE_URL}/nav-menus/${handle}`, { cache: 'no-store' });
+    const url = getApiUrl(`/nav-menus/${handle}`);
+    if (!url) return null;
+    const res = await fetch(url, { cache: 'no-store' });
     if (!res.ok) return null;
-    const json = await res.json();
+    const json: ApiResponse<unknown> = await res.json();
     return normalizeIds(json.data);
   } catch (err) {
     console.error('Failed to fetch nav menu:', err);
@@ -81,9 +98,11 @@ export async function fetchProducts(params?: { category?: string; collection?: s
     if (params?.limit) q.append('limit', params.limit.toString());
     if (params?.search) q.append('search', params.search);
 
-    const res = await fetch(`${API_BASE_URL}/products?${q.toString()}`, { cache: 'no-store' });
+    const url = getApiUrl(`/products?${q.toString()}`);
+    if (!url) return null;
+    const res = await fetch(url, { cache: 'no-store' });
     if (!res.ok) return null;
-    const json = await res.json();
+    const json: ApiResponse<unknown> = await res.json();
     const normalized = normalizeIds(json.data);
 
     if (normalized && Array.isArray(normalized.products)) {
@@ -99,9 +118,11 @@ export async function fetchProducts(params?: { category?: string; collection?: s
 
 export async function fetchProductById(id: string) {
   try {
-    const res = await fetch(`${API_BASE_URL}/products/${id}`, { cache: 'no-store' });
+    const url = getApiUrl(`/products/${id}`);
+    if (!url) return null;
+    const res = await fetch(url, { cache: 'no-store' });
     if (!res.ok) return null;
-    const json = await res.json();
+    const json: ApiResponse<unknown> = await res.json();
     const normalized = normalizeIds(json.data);
     return normalizeProductShape(normalized);
   } catch (err) {
@@ -112,9 +133,11 @@ export async function fetchProductById(id: string) {
 
 export async function fetchProductBySlug(slug: string) {
   try {
-    const res = await fetch(`${API_BASE_URL}/products/slug/${slug}`, { cache: 'no-store' });
+    const url = getApiUrl(`/products/slug/${slug}`);
+    if (!url) return null;
+    const res = await fetch(url, { cache: 'no-store' });
     if (!res.ok) return null;
-    const json = await res.json();
+    const json: ApiResponse<unknown> = await res.json();
     const normalized = normalizeIds(json.data);
     return normalizeProductShape(normalized);
   } catch (err) {
@@ -127,9 +150,11 @@ export async function fetchCollections(category?: string) {
   try {
     const q = new URLSearchParams();
     if (category) q.append('category', category);
-    const res = await fetch(`${API_BASE_URL}/collections?${q.toString()}`, { cache: 'no-store' });
+    const url = getApiUrl(`/collections?${q.toString()}`);
+    if (!url) return null;
+    const res = await fetch(url, { cache: 'no-store' });
     if (!res.ok) return null;
-    const json = await res.json();
+    const json: ApiResponse<unknown> = await res.json();
     return normalizeIds(json.data);
   } catch (err) {
     console.error('Failed to fetch collections:', err);
@@ -141,9 +166,11 @@ export async function fetchCategoriesByCollection(collectionId?: string) {
   try {
     const q = new URLSearchParams();
     if (collectionId) q.append('collectionId', collectionId);
-    const res = await fetch(`${API_BASE_URL}/categories?${q.toString()}`, { cache: 'no-store' });
+    const url = getApiUrl(`/categories?${q.toString()}`);
+    if (!url) return null;
+    const res = await fetch(url, { cache: 'no-store' });
     if (!res.ok) return null;
-    const json = await res.json();
+    const json: ApiResponse<unknown> = await res.json();
     return normalizeIds(json.data);
   } catch (err) {
     console.error('Failed to fetch categories:', err);
@@ -155,9 +182,11 @@ export async function fetchProductsByCategory(categoryId?: string) {
   try {
     const q = new URLSearchParams();
     if (categoryId) q.append('category', categoryId);
-    const res = await fetch(`${API_BASE_URL}/products?${q.toString()}`, { cache: 'no-store' });
+    const url = getApiUrl(`/products?${q.toString()}`);
+    if (!url) return null;
+    const res = await fetch(url, { cache: 'no-store' });
     if (!res.ok) return null;
-    const json = await res.json();
+    const json: ApiResponse<unknown> = await res.json();
     const normalized = normalizeIds(json.data);
     if (normalized && Array.isArray(normalized.products)) {
       normalized.products = dedupeProducts(normalized.products).map(normalizeProductShape);
@@ -171,9 +200,11 @@ export async function fetchProductsByCategory(categoryId?: string) {
 
 export async function fetchCollectionBySlug(slug: string) {
   try {
-    const res = await fetch(`${API_BASE_URL}/collections/${slug}`, { cache: 'no-store' });
+    const url = getApiUrl(`/collections/${slug}`);
+    if (!url) return null;
+    const res = await fetch(url, { cache: 'no-store' });
     if (!res.ok) return null;
-    const json = await res.json();
+    const json: ApiResponse<unknown> = await res.json();
     const normalized = normalizeIds(json.data);
 
     if (normalized && Array.isArray(normalized.products)) {
@@ -189,9 +220,11 @@ export async function fetchCollectionBySlug(slug: string) {
 
 export async function fetchProjects() {
   try {
-    const res = await fetch(`${API_BASE_URL}/projects`, { next: { revalidate: 60 } });
+    const url = getApiUrl('/projects');
+    if (!url) return null;
+    const res = await fetch(url, { next: { revalidate: 60 } });
     if (!res.ok) return null;
-    const json = await res.json();
+    const json: ApiResponse<unknown> = await res.json();
     return normalizeIds(json.data);
   } catch (err) {
     console.error('Failed to fetch projects:', err);
@@ -201,9 +234,11 @@ export async function fetchProjects() {
 
 export async function fetchProjectBySlug(slug: string) {
   try {
-    const res = await fetch(`${API_BASE_URL}/projects/${slug}`, { next: { revalidate: 60 } });
+    const url = getApiUrl(`/projects/${slug}`);
+    if (!url) return null;
+    const res = await fetch(url, { next: { revalidate: 60 } });
     if (!res.ok) return null;
-    const json = await res.json();
+    const json: ApiResponse<unknown> = await res.json();
     return normalizeIds(json.data);
   } catch (err) {
     console.error('Failed to fetch project detail by slug:', err);
