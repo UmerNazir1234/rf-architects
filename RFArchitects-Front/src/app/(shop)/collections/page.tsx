@@ -1,10 +1,10 @@
-import { fetchCollections } from "@/lib/api";
 import { collections as mockCollections } from "@/lib/collections";
 import Link from "next/link";
 
-export default async function Collections() {
-    const data = await fetchCollections();
-    const activeCollections = data && data.length > 0 ? data : mockCollections;
+export const dynamic = 'force-static';
+
+export default function Collections() {
+    const activeCollections = mockCollections;
 
     return (
         <div className="min-h-screen bg-white">

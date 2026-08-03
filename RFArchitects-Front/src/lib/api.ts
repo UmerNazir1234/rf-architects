@@ -78,7 +78,7 @@ export async function fetchNavMenu(handle = 'main-navbar') {
   try {
     const url = getApiUrl(`/nav-menus/${handle}`);
     if (!url) return null;
-    const res = await fetch(url, { cache: 'no-store' });
+    const res = await fetch(url, { next: { revalidate: 60 } });
     if (!res.ok) return null;
     const json: ApiResponse<unknown> = await res.json();
     return normalizeIds(json.data);
@@ -100,7 +100,7 @@ export async function fetchProducts(params?: { category?: string; collection?: s
 
     const url = getApiUrl(`/products?${q.toString()}`);
     if (!url) return null;
-    const res = await fetch(url, { cache: 'no-store' });
+    const res = await fetch(url, { next: { revalidate: 60 } });
     if (!res.ok) return null;
     const json: ApiResponse<unknown> = await res.json();
     const normalized = normalizeIds(json.data);
@@ -120,7 +120,7 @@ export async function fetchProductById(id: string) {
   try {
     const url = getApiUrl(`/products/${id}`);
     if (!url) return null;
-    const res = await fetch(url, { cache: 'no-store' });
+    const res = await fetch(url, { next: { revalidate: 60 } });
     if (!res.ok) return null;
     const json: ApiResponse<unknown> = await res.json();
     const normalized = normalizeIds(json.data);
@@ -135,7 +135,7 @@ export async function fetchProductBySlug(slug: string) {
   try {
     const url = getApiUrl(`/products/slug/${slug}`);
     if (!url) return null;
-    const res = await fetch(url, { cache: 'no-store' });
+    const res = await fetch(url, { next: { revalidate: 60 } });
     if (!res.ok) return null;
     const json: ApiResponse<unknown> = await res.json();
     const normalized = normalizeIds(json.data);
@@ -152,7 +152,7 @@ export async function fetchCollections(category?: string) {
     if (category) q.append('category', category);
     const url = getApiUrl(`/collections?${q.toString()}`);
     if (!url) return null;
-    const res = await fetch(url, { cache: 'no-store' });
+    const res = await fetch(url, { next: { revalidate: 60 } });
     if (!res.ok) return null;
     const json: ApiResponse<unknown> = await res.json();
     return normalizeIds(json.data);
@@ -168,7 +168,7 @@ export async function fetchCategoriesByCollection(collectionId?: string) {
     if (collectionId) q.append('collectionId', collectionId);
     const url = getApiUrl(`/categories?${q.toString()}`);
     if (!url) return null;
-    const res = await fetch(url, { cache: 'no-store' });
+    const res = await fetch(url, { next: { revalidate: 60 } });
     if (!res.ok) return null;
     const json: ApiResponse<unknown> = await res.json();
     return normalizeIds(json.data);
@@ -184,7 +184,7 @@ export async function fetchProductsByCategory(categoryId?: string) {
     if (categoryId) q.append('category', categoryId);
     const url = getApiUrl(`/products?${q.toString()}`);
     if (!url) return null;
-    const res = await fetch(url, { cache: 'no-store' });
+    const res = await fetch(url, { next: { revalidate: 60 } });
     if (!res.ok) return null;
     const json: ApiResponse<unknown> = await res.json();
     const normalized = normalizeIds(json.data);
@@ -202,7 +202,7 @@ export async function fetchCollectionBySlug(slug: string) {
   try {
     const url = getApiUrl(`/collections/${slug}`);
     if (!url) return null;
-    const res = await fetch(url, { cache: 'no-store' });
+    const res = await fetch(url, { next: { revalidate: 60 } });
     if (!res.ok) return null;
     const json: ApiResponse<unknown> = await res.json();
     const normalized = normalizeIds(json.data);
