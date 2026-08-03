@@ -1,10 +1,23 @@
 // RF Architects Frontend API Client
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
-  ? `${process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, '')}/api/v1`
-  : process.env.NODE_ENV === 'development'
-    ? 'http://localhost:5005/api/v1'
-    : '';
+function normalizeApiBaseUrl(rawValue?: string | null): string {
+  const value = (rawValue || process.env.NEXT_PUBLIC_API_BASE_URL || process.env.NEXT_PUBLIC_API_URL || '').trim();
+
+  if (!value) {
+    return process.env.NODE_ENV === 'development'
+      ? 'http://localhost:5005/api/v1'
+      : '';
+  }
+
+  const withoutTrailingSlash = value.replace(/\/+$/, '');
+  const withoutApiVersion = withoutTrailingSlash
+    .replace(/\/api\/v\d+$/i, '')
+    .replace(/\/api$/i, '');
+
+  return `${withoutApiVersion}/api/v1`;
+}
+
+const API_BASE_URL = normalizeApiBaseUrl(process.env.NEXT_PUBLIC_API_BASE_URL || process.env.NEXT_PUBLIC_API_URL);
 
 function getApiUrl(path: string) {
   if (!API_BASE_URL) return null;
