@@ -1,10 +1,22 @@
-import { collections as mockCollections } from "@/lib/collections";
 import Link from "next/link";
+import { fetchCollections } from "@/lib/api";
+import { collections as fallbackCollections } from "@/lib/collections";
 
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 
-export default function Collections() {
-    const activeCollections = mockCollections;
+export default async function Collections() {
+    const backendCollections = await fetchCollections();
+    const activeCollections = Array.isArray(backendCollections)
+        ? backendCollections.map((collection: any) => ({
+            id: collection._id || collection.id,
+            name: collection.name,
+            slug: collection.slug,
+            image: collection.coverImage || collection.image,
+            description: collection.description,
+            coverImage: collection.coverImage || collection.image,
+            _id: collection._id || collection.id,
+        }))
+        : fallbackCollections;
 
     return (
         <div className="min-h-screen bg-white">
