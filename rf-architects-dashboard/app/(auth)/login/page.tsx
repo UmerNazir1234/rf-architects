@@ -103,11 +103,11 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          <div className="mt-6 space-y-2 rounded-lg bg-muted p-4 text-sm">
+          {/* <div className="mt-6 space-y-2 rounded-lg bg-muted p-4 text-sm">
             <p className="font-medium text-foreground">Super Admin Credentials (from .env):</p>
             <p className="text-muted-foreground">Email: superadmin@rfarchitects.com</p>
             <p className="text-muted-foreground">Password: supersecretpassword</p>
-          </div>
+          </div> */}
         </CardContent>
       </Card>
     </div>
