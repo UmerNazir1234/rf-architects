@@ -24,6 +24,17 @@ const generateTokens = (user) => {
   return { accessToken, refreshToken };
 };
 
+const getCookieOptions = () => {
+  const isProduction = process.env.NODE_ENV === 'production';
+
+  return {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? 'none' : 'lax',
+    path: '/',
+  };
+};
+
 export const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -54,16 +65,12 @@ export const login = asyncHandler(async (req, res) => {
   await user.save();
 
   res.cookie('accessToken', accessToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    ...getCookieOptions(),
     maxAge: 24 * 60 * 60 * 1000, // 1 day
   });
 
   res.cookie('refreshToken', refreshToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    ...getCookieOptions(),
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
   });
 
@@ -82,8 +89,8 @@ export const login = asyncHandler(async (req, res) => {
 });
 
 export const logout = asyncHandler(async (req, res) => {
-  res.clearCookie('accessToken');
-  res.clearCookie('refreshToken');
+  res.clearCookie('accessToken', getCookieOptions());
+  res.clearCookie('refreshToken', getCookieOptions());
 
   res.status(200).json(new ApiResponse(200, {}, 'Logout successful'));
 });
@@ -111,16 +118,12 @@ export const refreshToken = asyncHandler(async (req, res) => {
   const { accessToken, refreshToken: newRefreshToken } = generateTokens(user);
 
   res.cookie('accessToken', accessToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    ...getCookieOptions(),
     maxAge: 24 * 60 * 60 * 1000,
   });
 
   res.cookie('refreshToken', newRefreshToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    ...getCookieOptions(),
     maxAge: 30 * 24 * 60 * 60 * 1000,
   });
 

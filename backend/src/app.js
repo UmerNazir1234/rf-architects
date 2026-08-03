@@ -12,6 +12,50 @@ dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
 const app = express();
 
+const getAllowedOrigins = () => {
+  const configuredOrigins = [
+    process.env.FRONTEND_ORIGIN,
+    process.env.DASHBOARD_ORIGIN,
+    process.env.CORS_ORIGINS,
+  ]
+    .filter(Boolean)
+    .flatMap((value) => value.split(',').map((entry) => entry.trim()).filter(Boolean));
+
+  return [...new Set([
+    ...configuredOrigins,
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:3001',
+  ])];
+};
+
+const isAllowedOrigin = (origin) => {
+  if (!origin) {
+    return true;
+  }
+
+  const allowedOrigins = getAllowedOrigins();
+
+  if (allowedOrigins.includes(origin)) {
+    return true;
+  }
+
+  if (/^https:\/\/[-a-z0-9]+\.vercel\.app$/i.test(origin)) {
+    return true;
+  }
+
+  if (/^https?:\/\/localhost(?::\d+)?$/i.test(origin)) {
+    return true;
+  }
+
+  if (/^https?:\/\/127\.0\.0\.1(?::\d+)?$/i.test(origin)) {
+    return true;
+  }
+
+  return origin.startsWith('http://192.168.') || origin.startsWith('http://172.');
+};
+
 // Security middleware
 app.use(helmet());
 
@@ -19,24 +63,10 @@ app.use(helmet());
 app.use(
   cors({
     origin: function (origin, callback) {
-      const allowedOrigins = [
-        process.env.FRONTEND_ORIGIN,
-        process.env.DASHBOARD_ORIGIN,
-        'http://localhost:3000',
-        'http://localhost:3001',
-        'http://127.0.0.1:3000',
-        'http://127.0.0.1:3001'
-      ];
-      // Allow requests with no origin (like mobile apps or curl requests)
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (isAllowedOrigin(origin)) {
         callback(null, true);
       } else {
-        // Also allow local network IPs during development if needed
-        if (origin.startsWith('http://192.168.') || origin.startsWith('http://172.')) {
-          callback(null, true);
-        } else {
-          callback(new Error('Not allowed by CORS'));
-        }
+        callback(new Error('Not allowed by CORS'));
       }
     },
     credentials: true,
