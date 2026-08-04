@@ -1,3 +1,6 @@
-import app from '../src/app.js'
+import app from '../src/app.js';
+import { connectDB } from '../src/config/db.js';
 
-export default app
+await connectDB();
+
+export default app;

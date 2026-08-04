@@ -5,8 +5,10 @@ const DEFAULT_LOCAL_MONGO_URI = 'mongodb://127.0.0.1:27017/rf-architects';
 export const getMongoUriCandidates = (env = process.env) => {
   const configuredUri = env.MONGO_URI?.trim();
   const candidates = configuredUri ? [configuredUri] : [];
+  const isVercelRuntime = Boolean(env.VERCEL || env.VERCEL_ENV || env.VERCEL_URL);
+  const shouldUseLocalFallback = !isVercelRuntime && env.NODE_ENV !== 'production';
 
-  if (env.NODE_ENV !== 'production' && !candidates.includes(DEFAULT_LOCAL_MONGO_URI)) {
+  if (shouldUseLocalFallback && !candidates.includes(DEFAULT_LOCAL_MONGO_URI)) {
     candidates.push(DEFAULT_LOCAL_MONGO_URI);
   }
 
@@ -14,6 +16,11 @@ export const getMongoUriCandidates = (env = process.env) => {
 };
 
 export const connectDB = async () => {
+  if (mongoose.connection.readyState === 1) {
+    console.log(`MongoDB already connected: ${mongoose.connection.host}`);
+    return mongoose.connection;
+  }
+
   const candidates = getMongoUriCandidates();
   let lastError = null;
 
