@@ -56,6 +56,18 @@ export const getPublicProjectBySlug = asyncHandler(async (req, res) => {
 
 // ADMIN ROUTES
 
+export const getProjectById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const project = await Project.findById(id);
+
+  if (!project) {
+    throw new ApiError(404, 'Project not found');
+  }
+
+  res.status(200).json(new ApiResponse(200, project, 'Project retrieved'));
+});
+
 export const getAdminProjects = asyncHandler(async (req, res) => {
   const { page = 1, limit = 20, status, search } = req.query;
 

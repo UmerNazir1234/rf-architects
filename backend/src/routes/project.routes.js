@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
   getPublicProjects,
   getPublicProjectBySlug,
+  getProjectById,
   getAdminProjects,
   createProject,
   updateProject,
@@ -16,11 +17,13 @@ const router = Router();
 
 // Public routes — specific paths must come before /:slug wildcard
 router.get('/', getPublicProjects);
-router.get('/:slug', getPublicProjectBySlug);
 
-// Admin routes (protected)
+// Admin routes (protected) - must be registered before /:slug wildcard
 router.use(authMiddleware);
 router.get('/admin/list', roleMiddleware('superadmin', 'editor', 'viewer'), getAdminProjects);
+router.get('/admin/:id', roleMiddleware('superadmin', 'editor', 'viewer'), getProjectById);
+
+router.get('/:slug', getPublicProjectBySlug);
 router.post('/', roleMiddleware('superadmin', 'editor'), createProject);
 router.put('/:id', roleMiddleware('superadmin', 'editor'), updateProject);
 router.patch('/:id/publish', roleMiddleware('superadmin', 'editor'), publishProject);
