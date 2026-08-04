@@ -6,7 +6,7 @@ export const getMongoUriCandidates = (env = process.env) => {
   const configuredUri = env.MONGO_URI?.trim();
   const candidates = configuredUri ? [configuredUri] : [];
 
-  if (!candidates.includes(DEFAULT_LOCAL_MONGO_URI)) {
+  if (env.NODE_ENV !== 'production' && !candidates.includes(DEFAULT_LOCAL_MONGO_URI)) {
     candidates.push(DEFAULT_LOCAL_MONGO_URI);
   }
 
