@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 const navigation = [
-  { href: "/", label: "Overview", icon: LayoutDashboard },
+  { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
   { href: "/products", label: "Products", icon: Package },
   { href: "/collections", label: "Collections", icon: Layers },
   { href: "/categories", label: "Categories", icon: Tags },
@@ -37,7 +37,7 @@ export function Sidebar() {
   const { user } = useAuth()
 
   const isActive = (href: string) => {
-    if (href === "/") return pathname === "/" || pathname === "" 
+    if (href === "/dashboard") return pathname === "/dashboard" || pathname === "/"
     return pathname.startsWith(href)
   }
 

@@ -80,6 +80,23 @@ export default function ProductsPage() {
     })
   }, [search, categoryFilter, collectionFilter, stockFilter, sort])
 
+  const handleCategoryChange = (value: string | null) => {
+    setCategoryFilter(value ?? "all")
+    setCollectionFilter("all")
+  }
+
+  const handleCollectionChange = (value: string | null) => {
+    setCollectionFilter(value ?? "all")
+  }
+
+  const handleStockChange = (value: string | null) => {
+    setStockFilter(value ?? "all")
+  }
+
+  const handleSortChange = (value: string | null) => {
+    setSort(value ?? "newest")
+  }
+
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
       setSelectedIds(products.map((p) => p.id))
@@ -129,10 +146,7 @@ export default function ProductsPage() {
               <label className="text-xs font-medium text-muted-foreground">Category</label>
               <Select
                 value={categoryFilter}
-                onValueChange={(val) => {
-                  setCategoryFilter(val)
-                  setCollectionFilter("all") // Reset collection filter when category changes
-                }}
+                onValueChange={handleCategoryChange}
               >
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="All Categories" />
@@ -150,7 +164,7 @@ export default function ProductsPage() {
 
             <div>
               <label className="text-xs font-medium text-muted-foreground">Collection</label>
-              <Select value={collectionFilter} onValueChange={setCollectionFilter}>
+              <Select value={collectionFilter} onValueChange={handleCollectionChange}>
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="All Collections" />
                 </SelectTrigger>
@@ -167,7 +181,7 @@ export default function ProductsPage() {
 
             <div>
               <label className="text-xs font-medium text-muted-foreground">Stock Status</label>
-              <Select value={stockFilter} onValueChange={setStockFilter}>
+              <Select value={stockFilter} onValueChange={handleStockChange}>
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="All" />
                 </SelectTrigger>
@@ -181,7 +195,7 @@ export default function ProductsPage() {
 
             <div>
               <label className="text-xs font-medium text-muted-foreground">Sort</label>
-              <Select value={sort} onValueChange={setSort}>
+              <Select value={sort} onValueChange={handleSortChange}>
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="Newest" />
                 </SelectTrigger>

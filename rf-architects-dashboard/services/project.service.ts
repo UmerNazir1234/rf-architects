@@ -38,7 +38,7 @@ export const projectService = {
 
   async getProjectById(id: string): Promise<ApiResponse<Project>> {
     if (USE_MOCK) return projectMockApi.getProjectById(id)
-    return apiClient.get<Project>(`/projects/${id}`)
+    return apiClient.get<Project>(`/projects/admin/${id}`)
   },
 
   async createProject(data: ProjectFormValues): Promise<ApiResponse<Project>> {
