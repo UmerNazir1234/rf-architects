@@ -1,20 +1,23 @@
 // RF Architects Frontend API Client
 
+const DEFAULT_LOCAL_API_BASE_URL = 'http://localhost:5005/api/v1';
+const DEFAULT_DEPLOY_API_BASE_URL = 'https://rf-architects-backend-six.vercel.app/api/v1';
+
 function normalizeApiBaseUrl(rawValue?: string | null): string {
   const value = (rawValue || process.env.NEXT_PUBLIC_API_BASE_URL || process.env.NEXT_PUBLIC_API_URL || '').trim();
 
-  if (!value) {
-    return process.env.NODE_ENV === 'development'
-      ? 'http://localhost:5005/api/v1'
-      : '';
+  if (value) {
+    const withoutTrailingSlash = value.replace(/\/+$/, '');
+    const withoutApiVersion = withoutTrailingSlash
+      .replace(/\/api\/v\d+$/i, '')
+      .replace(/\/api$/i, '');
+
+    return `${withoutApiVersion}/api/v1`;
   }
 
-  const withoutTrailingSlash = value.replace(/\/+$/, '');
-  const withoutApiVersion = withoutTrailingSlash
-    .replace(/\/api\/v\d+$/i, '')
-    .replace(/\/api$/i, '');
-
-  return `${withoutApiVersion}/api/v1`;
+  return process.env.NODE_ENV === 'development'
+    ? DEFAULT_LOCAL_API_BASE_URL
+    : DEFAULT_DEPLOY_API_BASE_URL;
 }
 
 const API_BASE_URL = normalizeApiBaseUrl(process.env.NEXT_PUBLIC_API_BASE_URL || process.env.NEXT_PUBLIC_API_URL);
