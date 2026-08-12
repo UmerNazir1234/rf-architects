@@ -1,8 +1,27 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { fetchProjectBySlug } from "@/lib/api";
+import { fetchProjectBySlug, fetchProjects } from "@/lib/api";
 import { Metadata } from "next";
+
+// Allow dynamic rendering as fallback if static generation fails
+export const revalidate = 60; // ISR: revalidate every 60 seconds
+
+// Generate static params for all published projects
+export async function generateStaticParams() {
+  try {
+    const data = await fetchProjects();
+    if (!data || !Array.isArray(data)) return [];
+    
+    return data.map((project: any) => ({
+      slug: project.slug,
+    }));
+  } catch (error) {
+    console.error('Failed to generate static params:', error);
+    // Return empty array to allow dynamic rendering as fallback
+    return [];
+  }
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
