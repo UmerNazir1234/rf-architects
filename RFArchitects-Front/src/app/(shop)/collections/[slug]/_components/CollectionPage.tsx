@@ -53,10 +53,10 @@ export default function CollectionPage() {
     const filteredProducts = useMemo(() => {
         const items = [...allProducts];
 
-        if (sortOption === "price-asc") {
-            items.sort((a, b) => a.price - b.price);
-        } else if (sortOption === "price-desc") {
-            items.sort((a, b) => b.price - a.price);
+        if (sortOption === "price-low-high") {
+            items.sort((a, b) => getDisplayPrice(a) - getDisplayPrice(b));
+        } else if (sortOption === "price-high-low") {
+            items.sort((a, b) => getDisplayPrice(b) - getDisplayPrice(a));
         } else if (sortOption === "newest") {
             items.reverse();
         }
@@ -138,9 +138,9 @@ export default function CollectionPage() {
                         value={sortOption}
                         onChange={(e) => setSortOption(e.target.value)}
                     >
-                        <option value="default">Sort: Bestselling</option>
-                        <option value="price-asc">Price: Low to High</option>
-                        <option value="price-desc">Price: High to Low</option>
+                        <option value="default">Sort: Default</option>
+                        <option value="price-low-high">Price: Low to High</option>
+                        <option value="price-high-low">Price: High to Low</option>
                         <option value="newest">Newest</option>
                     </select>
                 </div>

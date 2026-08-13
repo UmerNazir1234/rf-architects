@@ -13,6 +13,7 @@ export default function Shop() {
     const [error, setError] = useState<string | null>(null);
     const [selectedCollection, setSelectedCollection] = useState("all");
     const [selectedCategory, setSelectedCategory] = useState("all");
+    const [sortOption, setSortOption] = useState("default");
 
     useEffect(() => {
         const load = async () => {
@@ -58,7 +59,7 @@ export default function Shop() {
     }, [allProducts]);
 
     const filteredProducts = useMemo(() => {
-        return allProducts.filter((product) => {
+        const filtered = allProducts.filter((product) => {
             const productCollection = product.collection || product.collections?.[0] || null;
             const collectionId = typeof productCollection === "string" ? productCollection : productCollection?.id || productCollection?._id || "";
             const productCategory = product.category || null;
@@ -67,7 +68,18 @@ export default function Shop() {
             const matchesCategory = selectedCategory === "all" || categoryId === selectedCategory;
             return matchesCollection && matchesCategory;
         });
-    }, [allProducts, selectedCollection, selectedCategory]);
+
+        // Apply sorting
+        const sorted = [...filtered];
+        if (sortOption === "price-low-high") {
+            sorted.sort((a, b) => getDisplayPrice(a) - getDisplayPrice(b));
+        } else if (sortOption === "price-high-low") {
+            sorted.sort((a, b) => getDisplayPrice(b) - getDisplayPrice(a));
+        } else if (sortOption === "newest") {
+            sorted.reverse();
+        }
+        return sorted;
+    }, [allProducts, selectedCollection, selectedCategory, sortOption]);
 
     const displayedProducts = filteredProducts.slice(0, displayCount);
     const hasMore = displayCount < filteredProducts.length;
@@ -114,11 +126,11 @@ export default function Shop() {
                             <LayoutList className="h-4 w-4" />
                         </button>
                     </div>
-                    <select className="rounded border border-gray-300 bg-white px-3 py-2 text-sm">
-                        <option>Sort: Default</option>
-                        <option>Price: Low to High</option>
-                        <option>Price: High to Low</option>
-                        <option>Newest</option>
+                    <select value={sortOption} onChange={(e) => { setSortOption(e.target.value); setDisplayCount(12); }} className="rounded border border-gray-300 bg-white px-3 py-2 text-sm">
+                        <option value="default">Sort: Default</option>
+                        <option value="price-low-high">Price: Low to High</option>
+                        <option value="price-high-low">Price: High to Low</option>
+                        <option value="newest">Newest</option>
                     </select>
                 </div>
             </div>
