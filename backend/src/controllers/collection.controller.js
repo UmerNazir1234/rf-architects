@@ -237,11 +237,9 @@ export const updateCollection = asyncHandler(async (req, res) => {
 export const deleteCollection = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
-  const productsCount = await Product.countDocuments({ collection: id });
-
-  if (productsCount > 0) {
-    throw new ApiError(409, 'Cannot delete collection with active products');
-  }
+  // Instead of throwing an error, we will unlink the collection from associated products
+  await Product.updateMany({ collection: id }, { $unset: { collection: 1 } });
+  await Product.updateMany({ collections: id }, { $pull: { collections: id } });
 
   const collection = await Collection.findByIdAndDelete(id);
 
