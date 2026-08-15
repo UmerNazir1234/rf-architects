@@ -416,10 +416,10 @@ export default function CollectionsPage() {
                 </div>
 
                 <div className="flex gap-2 pt-2">
-                  <Button variant="outline" size="sm" className="w-full" onClick={() => handleEdit(col)}>
+                  <Button variant="outline" size="sm" className="flex-1" onClick={() => handleEdit(col)}>
                     Edit
                   </Button>
-                  <Button variant="destructive" size="sm" className="w-full" onClick={() => setDeleteId(col.id)}>
+                  <Button variant="destructive" size="sm" className="flex-1" onClick={() => setDeleteId(col.id)}>
                     Delete
                   </Button>
                 </div>
