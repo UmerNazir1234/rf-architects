@@ -9,8 +9,9 @@ export const Site = {
     phone: "+92 334 4738506",
     email: "rfarchitects@gmail.com",
     whatsapp: "+923344738506",
-    address: "3rd floor Taha Mall, Defence Rd, Rawalpindi, Punjab 47300",
-    location: "Islamabad, Pakistan",
+    address:
+      "Al-Rizq Plaza, Office No. 1, Plaza No. 79, Wallayat Complex, Bahria Phase 7, Punjab 47300",
+    location: "Rawalpindi, Pakistan",
   },
   social: {
     tiktok: "https://www.tiktok.com/@rf.architects01",
