@@ -90,12 +90,12 @@ const Advantages = () => {
           </div>
 
           {/* Bottom row left — stat style card */}
-          <div className="col-span-12 md:col-span-4 rounded-2xl bg-card ring-1 ring-foreground/10 overflow-hidden relative p-6">
-            <div className="text-5xl font-semibold">304</div>
-            <div className="mt-2 font-medium">Projects are launched</div>
-            <div className="text-sm opacity-70">
-              Strong Portfolio &amp; Reputation
-            </div>
+          <div className="col-span-12 md:col-span-4 rounded-2xl bg-card ring-1 ring-foreground/10 overflow-hidden">
+            <img
+              src="work-in-progress-1.jpg"
+              alt="Projects are launched"
+              className="w-full h-full object-cover"
+            />
           </div>
 
           {/* Bottom row middle — client oriented */}

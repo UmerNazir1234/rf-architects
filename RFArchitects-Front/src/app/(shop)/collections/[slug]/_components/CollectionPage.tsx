@@ -89,7 +89,7 @@ export default function CollectionPage() {
                         {collection.name}
                     </h1>
                     <p className="text-sm text-gray-600 leading-relaxed">
-                        Discover our curated collection of {collection.name.toLowerCase()}. Each piece is designed to bring elegance and functionality to your space.
+                        {collection.description || `Discover our curated collection of ${collection.name.toLowerCase()}. Each piece is designed to bring elegance and functionality to your space.`}
                     </p>
                 </div>
                 <div className="bg-gray-200 rounded-sm aspect-video flex items-center justify-center overflow-hidden">

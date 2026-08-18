@@ -146,9 +146,9 @@ const Footer = () => {
             transition={{ ...fade.transition, delay: 0.45 }}
             className="text-center mb-12"
           >
-            <p className="text-sm md:text-base text-white/80">Islamabad, Pakistan</p>
+            <p className="text-sm md:text-base text-white/80">Rawalpindi, Pakistan</p>
             <p className="text-sm md:text-base text-white/80">
-              3rd floor Taha Mall, Defence Rd, Rawalpindi,
+              Al-Rizq Plaza, Office No. 1, Plaza No. 79, Wallayat Complex, Bahria Phase 7,
             </p>
             <p className="text-sm md:text-base text-white/80">Punjab 47300</p>
           </motion.div>
