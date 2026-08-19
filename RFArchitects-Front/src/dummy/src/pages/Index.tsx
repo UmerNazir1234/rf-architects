@@ -2,7 +2,7 @@
 import Hero from "@/components/Hero";
 import Stats from "@/components/Stats";
 import Projects from "@/components/Projects";
-import Process from "@/components/Process";
+import Services from "@/components/Services";
 import FAQ from "@/components/FAQ";
 import DiscountMarquee from "@/components/DiscountMarquee";
 import CallToAction from "@/components/CallToAction";
@@ -21,7 +21,7 @@ const Index = () => {
       <Stats />
       <Apartmentpremisses />
       <Projects />
-      <Process />
+      <Services />
       {/* <Team /> */}
       <FAQ />
       <DiscountMarquee />

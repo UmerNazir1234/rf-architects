@@ -69,7 +69,7 @@ const Hero = () => {
                 className="absolute top-32 left-8 md:left-24 bg-white/95 backdrop-blur-sm px-6 py-4 rounded-2xl shadow-lg animate-slide-up hidden md:block"
                 style={{ animationDelay: "0.6s" }}
               >
-                <div className="text-xs text-muted-foreground mb-1">2025</div>
+                <div className="text-xs text-muted-foreground mb-1">2026</div>
                 <div className="font-semibold text-sm">Interior</div>
                 <div className="font-semibold text-sm">Design Awards</div>
               </div>

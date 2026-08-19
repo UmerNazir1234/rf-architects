@@ -48,7 +48,7 @@ const Advantages = () => {
           {/* Brand tile (large, left) */}
           <div className="col-span-12 md:col-span-4 rounded-2xl bg-card ring-1 ring-foreground/10 overflow-hidden">
             <img
-              src="contemporary-home-office-desk-setup.jpg"
+              src="/beautifully-decorated-living-room-interior.jpg"
               alt="RF ARCHITECTS brand"
               className="w-full h-full object-cover"
             />
@@ -57,7 +57,7 @@ const Advantages = () => {
           {/* Big living room (center wide) */}
           <div className="col-span-12 md:col-span-6 rounded-2xl bg-card ring-1 ring-foreground/10 overflow-hidden relative">
             <img
-              src="work-in-progress-1.jpg"
+              src="/luxury-bedroom-with-bed-and-nightstands.jpg"
               alt="Unique Design Aesthetic"
               className="w-full h-full object-cover"
             />
@@ -72,7 +72,7 @@ const Advantages = () => {
             <div className="rounded-2xl bg-card ring-1 ring-foreground/10 overflow-hidden">
               <img
                 src={
-                  "material-selection.jpg"
+                  "/material-selection.jpg"
                 }
                 alt="Serious Attention to Detail"
                 className="w-full h-full object-cover"
@@ -81,7 +81,7 @@ const Advantages = () => {
             <div className="rounded-2xl bg-card ring-1 ring-foreground/10 overflow-hidden">
               <img
                 src={
-                  "travertine-dining-table-sculptural.jpg"
+                  "/travertine-dining-table-sculptural.jpg"
                 }
                 alt="Innovative Solutions"
                 className="w-full h-full object-cover"
@@ -92,7 +92,7 @@ const Advantages = () => {
           {/* Bottom row left — stat style card */}
           <div className="col-span-12 md:col-span-4 rounded-2xl bg-card ring-1 ring-foreground/10 overflow-hidden">
             <img
-              src="work-in-progress-1.jpg"
+              src="/modern-minimalist-coffee-table.jpg"
               alt="Projects are launched"
               className="w-full h-full object-cover"
             />
@@ -102,7 +102,7 @@ const Advantages = () => {
           <div className="col-span-12 md:col-span-4 rounded-2xl bg-card ring-1 ring-foreground/10 overflow-hidden">
             <img
               src={
-                "work-in-progress-1.jpg"
+                "/contemporary-home-office-desk-setup.jpg"
               }
               alt="Client-oriented Approach"
               className="w-full h-full object-cover"
@@ -113,7 +113,7 @@ const Advantages = () => {
           <div className="col-span-12 md:col-span-4 rounded-2xl bg-card ring-1 ring-foreground/10 overflow-hidden">
             <img
               src={
-                "rustic-wood-dining-table.jpg"
+                "/rustic-wood-dining-table.jpg"
               }
               alt="Serious Attention to Detail"
               className="w-full h-full object-cover"

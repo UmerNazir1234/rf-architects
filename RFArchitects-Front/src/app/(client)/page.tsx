@@ -3,7 +3,7 @@ import React from 'react'
 import Hero from './_components/Hero'
 import Stats from './_components/Stats'
 import Projects from './_components/Projects';
-import Process from './_components/Process';
+import Services from './_components/Services';
 import ApartmentPremises from './_components/Apartmentpremisses';
 import FAQ from './_components/FAQ';
 import DiscountMarquee from './_components/DiscountMarquee';
@@ -20,7 +20,7 @@ const page = () => {
             <Stats />
             <ApartmentPremises />
             <Projects />
-            <Process />
+            <Services />
             <FAQ />
             <DiscountMarquee />
             <CallToAction />

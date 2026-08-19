@@ -10,6 +10,7 @@ const Footer = () => {
     { label: "Shop", url: "/shop" },
     { label: "Collections", url: "/collections" },
     { label: "Projects", url: "/projects" },
+    { label: "Services", url: "/#our-services" },
     { label: "About Us", url: "/about" },
 
     { label: "Contact", url: "/contact" },

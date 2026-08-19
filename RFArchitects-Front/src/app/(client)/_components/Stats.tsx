@@ -5,9 +5,9 @@ import { cn } from "@/lib/utils";
 
 const metrics = [
   {
-    value: 2025,
+    value: 2024,
     title: "Year of establishment",
-    note: "More than 10 years in the field",
+    note: "More than 2 years in the field",
     avatars: [
       "/team-portrait-1.jpg",
       "/team-portrait-2.jpg",
@@ -15,7 +15,7 @@ const metrics = [
     ],
   },
   {
-    value: 304,
+    value: 320,
     title: "Projects are launched",
     note: "A lot of projects are done",
     avatars: [
@@ -108,7 +108,7 @@ const Stats = () => {
         {/* Header (Year on left - Text on right) */}
         <div className="mb-40 flex flex-col justify-center items-center  md:flex-row md:items-start gap-8">
           <div className="text-[14px] font-medium text-neutral-500 md:mt-1 ">
-            2025
+            2026
           </div>
           <h2 className="text-[22px] leading-[1.3] font-medium tracking-tight md:text-[28px] ">
             Whether it’s your home, office, or an entire commercial project, RF Architects is dedicated to shaping your vision into a space that inspires.
