@@ -6,7 +6,7 @@ import ProductCard from "@/components/product-card";
 import { getCompareAtPrice, getDisplayPrice } from "@/lib/utils";
 
 export default function Shop() {
-    const [displayCount, setDisplayCount] = useState(12);
+    const [displayCount, setDisplayCount] = useState(9999);
     const [viewType, setViewType] = useState("grid");
     const [products, setProducts] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
@@ -80,6 +80,10 @@ export default function Shop() {
         }
         return sorted;
     }, [allProducts, selectedCollection, selectedCategory, sortOption]);
+
+    useEffect(() => {
+        setDisplayCount(filteredProducts.length || 9999);
+    }, [filteredProducts.length]);
 
     const displayedProducts = filteredProducts.slice(0, displayCount);
     const hasMore = displayCount < filteredProducts.length;
