@@ -77,7 +77,7 @@ async function resolveCollectionId(collectionRef) {
 // ─── PUBLIC ROUTES ───────────────────────────────────────────────────────────
 
 export const getPublicProducts = asyncHandler(async (req, res) => {
-  const { category, collection, sort, page = 1, limit = 12, search } = req.query;
+  const { category, collection, sort, page = 1, limit = 1000, search } = req.query;
 
   const filter = { isActive: true };
 
@@ -111,8 +111,9 @@ export const getPublicProducts = asyncHandler(async (req, res) => {
   else if (sort === 'price_desc') query = query.sort({ price: -1 });
   else query = query.sort({ createdAt: -1 });
 
-  const pageNum = parseInt(page);
-  const limitNum = parseInt(limit);
+  const pageNum = parseInt(page, 10) || 1;
+  const requestedLimit = parseInt(limit, 10);
+  const limitNum = Number.isFinite(requestedLimit) && requestedLimit > 0 ? requestedLimit : 1000;
   const skip = (pageNum - 1) * limitNum;
 
   const products = await query.skip(skip).limit(limitNum);
@@ -125,7 +126,7 @@ export const getPublicProducts = asyncHandler(async (req, res) => {
         products,
         pagination: {
           total,
-          pages: Math.ceil(total / limitNum),
+          pages: Math.ceil(total / limitNum) || 1,
           currentPage: pageNum,
           limit: limitNum,
         },
